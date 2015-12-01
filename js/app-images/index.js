@@ -6,12 +6,12 @@ import ImagesAddController from './controllers/images-add.controller';
 
 import ImagesService from './services/images.service';
 
-import imageItem from './directives/image.directive';
+import imageItem from './directives/images.directive';
 
 angular
   .module('app.images', ['app.core'])
   .controller('ImagesController', ImagesController)
   .controller('ImagesAddController', ImagesAddController)
   .service('ImagesService', ImagesService)
-  .directive('jefImage', jefImage)
+  .directive('imageItem', imageItem)
   ;

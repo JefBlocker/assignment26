@@ -11,17 +11,16 @@ let config = function($stateProvider, $urlRouterProvider) {
 
     .state('root.home', {
       url: '/',
-
       controller: 'HomeController as vm',
       templateUrl: 'templates/app-layout/home.tpl.html'
     })
-    // My Cars
-    .state('root.cars', {
-      url: '/cars',
+    
+    .state('root.images', {
+      url: '/images',
       controller: 'ImagesController as vm',
       templateUrl: 'templates/app-images/images.tpl.html'
     })
-    // Add Car
+
     .state('root.addImage', {
       url: '/images/add',
       controller: 'ImagesAddController as vm',
