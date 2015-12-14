@@ -1,17 +1,12 @@
 import angular from 'angular';
 import '../app-core/index';
 
-import ImagesController from './controllers/images.controller';
-import ImagesAddController from './controllers/images-add.controller';
+import AddImageController from './controllers/add-image.controller';
 
-import ImagesService from './services/images.service';
-
-import imageItem from './directives/images.directive';
+import AddImageService from './services/add-image.service';
 
 angular
   .module('app.images', ['app.core'])
-  .controller('ImagesController', ImagesController)
-  .controller('ImagesAddController', ImagesAddController)
-  .service('ImagesService', ImagesService)
-  .directive('imageItem', imageItem)
+  .controller('AddImageController', AddImageController)
+  .service('AddImageService', AddImageService)
   ;

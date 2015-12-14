@@ -15,14 +15,10 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/',
     controller: 'HomeController as vm',
     templateUrl: 'templates/app-layout/home.tpl.html'
-  }).state('root.images', {
-    url: '/images',
-    controller: 'ImagesController as vm',
-    templateUrl: 'templates/app-images/images.tpl.html'
   }).state('root.addImage', {
-    url: '/images/add',
-    controller: 'ImagesAddController as vm',
-    templateUrl: 'templates/app-images/images-add.tpl.html'
+    url: '/addImage',
+    controller: 'AddImageController as vm',
+    templateUrl: 'templates/app-images/add-image.tpl.html'
   });
 };
 
@@ -75,92 +71,26 @@ _angular2['default'].module('app.core', ['ui.router']).config(_config2['default'
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ImagesAddController = function ImagesAddController(ImagesService) {
+var AddImageController = function AddImageController(AddImageService, $state) {
 
   var vm = this;
 
-  vm.addImage = addImage;
+  vm.addPoster = addPoster;
 
-  function addImage(imgageObj) {
-    ImagesService.addImage(imageObj).then(function (res) {
+  function addPoster(poster) {
+    AddImageService.addPoster(poster).then(function (res) {
       console.log(res);
+      $state.go('root.home');
     });
   }
 };
 
-ImagesAddController.$inject = ['ImagesService'];
+AddImageController.$inject = ['AddImageService', '$state'];
 
-exports['default'] = ImagesAddController;
+exports['default'] = AddImageController;
 module.exports = exports['default'];
 
 },{}],5:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var ImagesController = function ImagesController(ImagesService) {
-
-  var vm = this;
-
-  vm.images = [];
-  vm.clicked = clicked;
-  vm.count = 0;
-  vm.message = "";
-
-  vm.incrementByOne = function () {
-    vm.count++;
-    vm.message = vm.count === 1 ? "We feel love!" : "I heart flying saucers!";
-  };
-
-  activate();
-
-  function activate() {
-    ImagesService.getAllImages().then(function (res) {
-      vm.images = res.data.results;
-    });
-  }
-
-  function clicked(image) {
-    console.log('clicked', image.title);
-  }
-};
-
-ImagesController.$inject = ['ImagesService'];
-
-exports["default"] = ImagesController;
-module.exports = exports["default"];
-
-},{}],6:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-var imageItem = function imageItem($state, ImagesService) {
-
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      image: '='
-    },
-    template: '\n      <div class="panel">\n        <h5>{{ image.title }}</h5>\n        <img ng-src="{{ image.image }}">\n        <p>Likes: {{ image.likes }}</p>\n      </div>\n    ',
-    link: function link(scope, element, attrs) {
-      element.on('click', function () {
-        element.addClass('heart');
-        ImagesService.like(scope.image);
-      });
-    }
-  };
-};
-
-imageItem.$inject = ['$state', 'ImagesService'];
-
-exports['default'] = imageItem;
-module.exports = exports['default'];
-
-},{}],7:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -171,92 +101,108 @@ var _angular2 = _interopRequireDefault(_angular);
 
 require('../app-core/index');
 
-var _controllersImagesController = require('./controllers/images.controller');
+var _controllersAddImageController = require('./controllers/add-image.controller');
 
-var _controllersImagesController2 = _interopRequireDefault(_controllersImagesController);
+var _controllersAddImageController2 = _interopRequireDefault(_controllersAddImageController);
 
-var _controllersImagesAddController = require('./controllers/images-add.controller');
+var _servicesAddImageService = require('./services/add-image.service');
 
-var _controllersImagesAddController2 = _interopRequireDefault(_controllersImagesAddController);
+var _servicesAddImageService2 = _interopRequireDefault(_servicesAddImageService);
 
-var _servicesImagesService = require('./services/images.service');
+_angular2['default'].module('app.images', ['app.core']).controller('AddImageController', _controllersAddImageController2['default']).service('AddImageService', _servicesAddImageService2['default']);
 
-var _servicesImagesService2 = _interopRequireDefault(_servicesImagesService);
-
-var _directivesImagesDirective = require('./directives/images.directive');
-
-var _directivesImagesDirective2 = _interopRequireDefault(_directivesImagesDirective);
-
-_angular2['default'].module('app.images', ['app.core']).controller('ImagesController', _controllersImagesController2['default']).controller('ImagesAddController', _controllersImagesAddController2['default']).service('ImagesService', _servicesImagesService2['default']).directive('imageItem', _directivesImagesDirective2['default']);
-
-},{"../app-core/index":3,"./controllers/images-add.controller":4,"./controllers/images.controller":5,"./directives/images.directive":6,"./services/images.service":8,"angular":14}],8:[function(require,module,exports){
+},{"../app-core/index":3,"./controllers/add-image.controller":4,"./services/add-image.service":6,"angular":14}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var ImagesService = function ImagesService($http, PARSE) {
+var AddImageService = function AddImageService($http, PARSE) {
 
-  var url = PARSE.URL + 'classes/images';
+  var url = PARSE.URL + 'classes/posters';
 
-  this.getAllImages = getAllImages;
-  this.addImage = addImage;
-  this.like = like;
+  this.addPoster = addPoster;
 
-  function Title(imageObj) {
-    this.title = imageObj.title;
-  }
+  var Poster = function Poster(posterObj) {
+    this.poster = posterObj.poster;
+    this.title = posterObj.title;
+  };
 
-  function Image(imageObj) {
-    this.image = imageObj.image;
-  }
-
-  function getAllImages() {
-    return $http.get(url, PARSE.CONFIG);
-  }
-
-  function addImage(imageObj) {
-    var img = new Image(imageObj);
-    return $http.post(url, img, PARSE.CONFIG);
-  }
-
-  function like(obj) {
-    updateLikes(obj);
-    return console.log(obj);
-  }
-
-  function updateLikes(obj) {
-    obj.likes = obj.likes + 1;
-    return $http.put(url + '/' + obj.objectId, obj, PARSE.CONFIG);
+  function addPoster(posterObj) {
+    var i = new Poster(posterObj);
+    return $http.post(url, i, PARSE.CONFIG);
   }
 };
 
-ImagesService.$inject = ['$http', 'PARSE'];
+AddImageService.$inject = ['$http', 'PARSE'];
 
-exports['default'] = ImagesService;
+exports['default'] = AddImageService;
 module.exports = exports['default'];
 
-},{}],9:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var HomeController = function HomeController(PARSE) {
-
-  console.log(PARSE);
+var HomeController = function HomeController(AllImagesService) {
 
   var vm = this;
 
-  vm.title = 'Home Page';
+  vm.posters = [];
+
+  getPosters();
+
+  function getPosters() {
+    AllImagesService.getAllPosters().then(function (res) {
+      vm.posters = res.data.results;
+    });
+  }
 };
 
-HomeController.$inject = ['PARSE'];
+HomeController.$inject = ['AllImagesService'];
 
 exports['default'] = HomeController;
 module.exports = exports['default'];
 
-},{}],10:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var posterImage = function posterImage(AllImagesService, $timeout) {
+
+  return {
+    restrict: 'AE',
+    scope: {
+      poster: '=poster'
+    },
+    template: '\n      <div class="panel">\n        <h5>{{ poster.title }}</h5>\n        <img ng-src="{{ poster.poster }}">\n        <span class="hidden"><i class="fa fa-heart"></i></span>\n        <p class="likes">Likes: {{ poster.likes }} </p>\n      </div>\n    ',
+    link: function link(scope, element, attrs) {
+      element.on('click', function () {
+        console.log('clicked');
+
+        element.find('span').removeClass('invisible').addClass('visible');
+        $timeout(function () {
+
+          element.find('span').removeClass('visible').addClass('invisible');
+        }, 1000);
+
+        AllImagesService.addLike(scope.poster).then(function (res) {
+          console.log(res);
+        });
+      });
+    }
+  };
+};
+
+posterImage.$inject = ['AllImagesService', '$timeout'];
+
+exports['default'] = posterImage;
+module.exports = exports['default'];
+
+},{}],9:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -265,13 +211,51 @@ var _angular = require('angular');
 
 var _angular2 = _interopRequireDefault(_angular);
 
+require('../app-core/index');
+
 var _controllersHomeController = require('./controllers/home.controller');
 
 var _controllersHomeController2 = _interopRequireDefault(_controllersHomeController);
 
-_angular2['default'].module('app.layout', []).controller('HomeController', _controllersHomeController2['default']);
+var _directivesImageDirective = require('./directives/image.directive');
 
-},{"./controllers/home.controller":9,"angular":14}],11:[function(require,module,exports){
+var _directivesImageDirective2 = _interopRequireDefault(_directivesImageDirective);
+
+var _servicesAllImagesService = require('./services/all-images.service');
+
+var _servicesAllImagesService2 = _interopRequireDefault(_servicesAllImagesService);
+
+_angular2['default'].module('app.layout', ['app.core']).controller('HomeController', _controllersHomeController2['default']).directive('posterImage', _directivesImageDirective2['default']).service('AllImagesService', _servicesAllImagesService2['default']);
+
+},{"../app-core/index":3,"./controllers/home.controller":7,"./directives/image.directive":8,"./services/all-images.service":10,"angular":14}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var AllImagesService = function AllImagesService($http, PARSE) {
+
+  var url = PARSE.URL + 'classes/posters';
+
+  this.getAllPosters = getAllPosters;
+  this.addLike = addLike;
+
+  function getAllPosters() {
+    return $http.get(url, PARSE.CONFIG);
+  }
+
+  function addLike(postObj) {
+    postObj.likes = postObj.likes + 1;
+    return $http.put(url + '/' + postObj.objectId, postObj, PARSE.CONFIG);
+  }
+};
+
+AllImagesService.$inject = ['$http', 'PARSE'];
+
+exports['default'] = AllImagesService;
+module.exports = exports['default'];
+
+},{}],11:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -290,7 +274,7 @@ require('./app-images/index');
 
 _angular2['default'].module('app', ['app.core', 'app.layout', 'app.images']);
 
-},{"./app-core/index":3,"./app-images/index":7,"./app-layout/index":10,"angular":14,"angular-ui-router":12}],12:[function(require,module,exports){
+},{"./app-core/index":3,"./app-images/index":5,"./app-layout/index":9,"angular":14,"angular-ui-router":12}],12:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15

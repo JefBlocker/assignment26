@@ -1,5 +1,5 @@
-<h3>{{ vm.title }}</h3>
+<h3>Classic Science Fiction Movie Posters</h3>
 
-<p>Enjoy my collection of classic science fiction movie images.</p>
-
-<img src = "{{ vm.img }}">
+<div>
+  <poster-image ng-repeat="i in vm.posters" poster="i"></poster-image>
+</div>

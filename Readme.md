@@ -1,6 +1,44 @@
-## Welcome to My Project
+## Assigment 26: Classic Science Fiction Movie Posters
 
-> I am your Readme.md file, you should probably update me.
+Demo: dependent-help.surge.sh
+
+
+Learning Objectives
+
+-Demonstrate that you can create an AngularJS project from scratch
+
+-Demonstrate that you have an understanding of AngularJS directives
+
+-Demonstrate that you can break your AngularJS application into sub modules
+
+
+Deliverables
+
+-Link to your repo
+
+-Link to your app deployed on surge.sh
+
+
+Details
+
+Requires at least two routes
+
+Home Page - this will show a list of all images
+
+Add Page - this will be a page where you can upload another image
+
+No need for a single or edit view. This app just focuses on the CR of CRUD
+
+Each image will need to be inside of a younameImage directive. So mine would be called timImage and would look like <tim-image></tim-image> in my HTML.
+
+When doubleclicking the image, it should show a heart or star icon in the middle (think Instagram) and it should visibly show the likes count increase on the page.
+
+
+Requirements
+
+-Three States (root, root.home, root.add)
+
+-Four Modules (app, app.core, app.layout, app.images)
 
 
 ## Usage

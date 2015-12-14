@@ -1,6 +1,105 @@
-// Put any @imports here
-// See Readme for a list of supported ones
+@import "foundation";
+@import "font-awesome";
+
+.top-bar {
+  background: #000019;
+}
+
+.top-bar .name h1 a {
+  color: blue;
+}
+
+.top-bar-section .right {
+  background: #000019;
+}
+
+.top-bar-section ul li > a {
+  background: #000019;
+  color: blue;
+}
+
+.top-bar-section ul li > a:hover {
+  background: blue;
+  color: #000019
+}
 
 body {
-  background: #e2ebf3;
+  background: #162252;
+  color: orange;
+}
+
+.wrapper {
+
+}
+
+h3 {
+  color: #e53e00;
+  margin-top: 15px;
+  margin-left: 25px;
+}
+
+button {
+background-color: #66CD00;
+border: 2px solid #e53e00;
+border-radius: 5px;
+color: #e53e00;
+font-size: 18px;
+font-weight: bold;
+padding: 10px;
+}
+
+button:hover {
+  background-color: #e53e00;
+  color: #66CD00;
+  border: 3px solid #66CD00;
+}
+
+button:active {
+  background-color: #162252;;
+  color: white;
+  border: 5px solid white;
+}
+
+.panel {
+  background: #000019;
+  width: 250px;
+  color: blue;
+  margin-left: 25px;
+  margin-right: 25px;
+  position: relative;
+  display: inline-block;
+}
+
+.panel img {
+  max-width: 208px;
+  max-height: 316px;
+}
+
+.panel h5 {
+  color: blue;
+}
+
+.panel p {
+  margin-top: 5px;
+  color: blue;
+}
+
+.addPoster {
+  margin-left: 25px;
+  margin-right: 700px;
+}
+
+.invisible {
+  position: absolute;
+  top: 35%;
+  left: 30%;
+  visibility: hidden;
+}
+
+.visible {
+  position: absolute;
+  top: 35%;
+  left: 30%;
+  font-size: 100px;
+  color: red;
 }

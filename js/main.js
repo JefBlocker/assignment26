@@ -7,5 +7,4 @@ import './app-images/index';
 
 
 angular
-  .module('app', ['app.core', 'app.layout', 'app.images'])
-;
+  .module('app', ['app.core', 'app.layout', 'app.images']);

@@ -14,17 +14,11 @@ let config = function($stateProvider, $urlRouterProvider) {
       controller: 'HomeController as vm',
       templateUrl: 'templates/app-layout/home.tpl.html'
     })
-    
-    .state('root.images', {
-      url: '/images',
-      controller: 'ImagesController as vm',
-      templateUrl: 'templates/app-images/images.tpl.html'
-    })
 
     .state('root.addImage', {
-      url: '/images/add',
-      controller: 'ImagesAddController as vm',
-      templateUrl: 'templates/app-images/images-add.tpl.html'
+      url: '/addImage',
+      controller: 'AddImageController as vm',
+      templateUrl: 'templates/app-images/add-image.tpl.html'
     });
 
 };
